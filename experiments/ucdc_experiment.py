@@ -83,7 +83,7 @@ class UCDCExperiment:
 
 if __name__=='__main__':
     
-    experiment=False
+    experiment=True
     plot=True
     
     if experiment:
