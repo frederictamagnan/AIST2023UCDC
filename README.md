@@ -2,6 +2,10 @@
 
 This paper is an implementation of Regression Test Generation by Usage Coverage
 Driven Clustering on User Traces
+Additional materials can be found on https://github.com/PHILAE-PROJECT.
+Reach me at frederic.tamagnan (at) gmail.com if you need additional info.
+## Datasets
+Scanette and Spree are available in ./data
 
 ## Installation
 Install packages with
