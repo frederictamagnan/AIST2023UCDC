@@ -88,10 +88,10 @@ if __name__=='__main__':
     
     if experiment:
         results_path=[]
-        pipelines=[("agglutinate",AgglutinatePipeline,Sampling)]
+        
         pipelines=[("NoClusteringOnlySampling",NoClustering,OnlySampling),("KmeansWithSampling",KmeansPipeline,Sampling),("KmeansWithBestUsageChoice",KmeansPipeline,BestUsageChoice)]
         pipelines+=[("kmedoids",KMedoidsPipeline,Sampling),("kmeansW2v",KmeansW2v,Sampling),('agglutinate',AgglutinatePipeline,Sampling)]
-        pipelines=[("kmeansW2vBestUsageChoice",KmeansW2v,BestUsageChoice)]
+        pipelines+=[("kmeansW2vBestUsageChoice",KmeansW2v,BestUsageChoice)]
         for pipeline in pipelines:
             name_experiment,clustering_pip,sample_heuri=pipeline
             ucdce=UCDCExperiment(name_experiment+"2001")
