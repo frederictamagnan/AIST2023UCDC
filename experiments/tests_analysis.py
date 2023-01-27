@@ -16,8 +16,9 @@ dataset_names=["scanette_100043-steps","teaming_execution"]
 # dataset_names=["teaming_execution"]
 test_dataset_names=['functional-tests',"teaming_test"]
 # test_dataset_names=["teaming_test"]
-
-cluster_number=[20,90]
+import warnings
+warnings.filterwarnings("ignore")
+cluster_number=[6,90]
 
 for dataset_id in range(0,2):
     dataset_name=dataset_names[dataset_id]
@@ -37,7 +38,7 @@ for dataset_id in range(0,2):
 
     # print(len(voc_test))
     new_data = np.unique(X_test, axis=0)
-    # print("unique",len(new_data))
+    print("unique",len(new_data))
     traceset_global=copy.deepcopy(traceset_execution)
     traceset_global.extend(traceset_test.traces)
     textset_global=traceset_to_textset(traceset_global)
@@ -75,43 +76,47 @@ for dataset_id in range(0,2):
     print("GLOBAL",data[-1]['usage'])
     
     for cluster,usage_info in data.items():
-        if usage_info['usage']<0.9 and usage_info['usage']>0.1:
-            print(cluster,usage_info['usage'])
+        if usage_info['usage']<1 and usage_info['usage']>0.1 and cluster==-1:
+            # print(cluster,usage_info['usage'])
             data_missing_piechart=[]
             labels_missing_piechart=[]
             data_present_piechart=[]
             labels_present_piechart=[]
             for ngram,usage_gram in usage_info['missing']:
-                if usage_gram>0.1:
+                if usage_gram>0.001:
                     data_missing_piechart.append(usage_gram)
                     labels_missing_piechart.append(ngram)
+            print('missing')
+            print([(d,l) for d,l in zip(data_missing_piechart,labels_missing_piechart)])
             for ngram,usage_gram in usage_info['present']:
-                if usage_gram>0.1:
+                if usage_gram>0.001:
                     data_present_piechart.append(usage_gram)
                     labels_present_piechart.append(ngram)
-            
+            print('present')
+            print([(d,l) for d,l in zip(data_present_piechart,labels_present_piechart)])
             # print(data_missing_piechart,labels_missing_piechart,data_present_piechart,labels_present_piechart)
             
-            if len(data_missing_piechart)>0 and len(data_present_piechart)>0:
-            #define Seaborn color palette to use
-                plt.figure()
-                colors = list(reversed(sns.color_palette('Reds')[0:len(data_missing_piechart)]))+list(reversed(sns.color_palette("Greens")[0:len(data_present_piechart)]))
-                print(len(colors))
-                data_piechart=data_missing_piechart+data_present_piechart
-                data_piechart=[str(elt) for elt in data_piechart]
-                labels_piechart=labels_missing_piechart+labels_present_piechart
-                labels_piechart=[elt[0:15]+'...\n...'+elt[-15:] for elt in labels_piechart]
-                print(len(data_piechart))
-                print(data_piechart,labels_piechart)
-                #create pie chart
-                plt.pie(data_piechart, labels=labels_piechart, colors = colors, autopct='%.0f%%')
-                if cluster!=-1:
-                    plt.title("Api Calls Usage Share For cluster "+str(cluster))
-                else:
-                    plt.title("Global Api Calls Usage Share "+str(cluster))
+            # if len(data_missing_piechart)>0 and len(data_present_piechart)>0:
+            # #define Seaborn color palette to use
+            #     plt.figure()
+            #     colors = list(reversed(sns.color_palette('Reds')[0:len(data_missing_piechart)]))+list(reversed(sns.color_palette("Greens")[0:len(data_present_piechart)]))
+            #     print(len(colors))
+            #     data_piechart=data_missing_piechart+data_present_piechart
+            #     data_piechart=[str(elt) for elt in data_piechart]
+            #     labels_piechart=labels_missing_piechart+labels_present_piechart
+            #     # labels_piechart=[elt[0:15]+'...\n...'+elt[-15:] for elt in labels_piechart]
+            #     print(len(data_piechart))
+            #     print("hey",data_piechart,labels_piechart)
+            #     #create pie chart
+            #     print(labels_piechart)
+            #     plt.pie(data_piechart, labels=labels_piechart, colors = colors, autopct='%.0f%%')
+            #     if cluster!=-1:
+            #         plt.title("Api Calls Usage Share For cluster "+str(cluster))
+            #     else:
+            #         plt.title("Global Api Calls Usage Share "+str(cluster))
 
-                plt.show()
-                plt.savefig("./results/fig/piecharts/"+dataset_name+"_cluster_"+str(cluster)+"with_usage_"+str(usage_info['usage'])+".png")
+            #     plt.show()
+            #     plt.savefig("./results/fig/piecharts/"+dataset_name+"_cluster_"+str(cluster)+"with_usage_"+str(usage_info['usage'])+".png")
             
             
             

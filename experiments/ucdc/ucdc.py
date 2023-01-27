@@ -2,6 +2,7 @@ from statistics import mean,stdev
 from .utils.usage_coverage import UsageCoverage
 from tqdm import tqdm
 from .logging_manager import LoggingManager
+import time
 class UsageCoverageDrivenClustering:
     
     def __init__(self,clustering_pipeline,sample_heuristic,execution_traces_agilkia_format):
@@ -19,7 +20,7 @@ class UsageCoverageDrivenClustering:
         usage_coverage_stats=0
         recorded_usage_coverage_stats=[]
         results={}
-        
+        b=time.time()
         X=self.clustering_pipeline.preprocessor(self.execution_traces_agilkia_format)
         
         for nb_clusters in range_clusters:
@@ -38,6 +39,7 @@ class UsageCoverageDrivenClustering:
                 results['best_nb_of_clusters']=nb_clusters
         
         results['usage_coverage_by_clusters']=[(a,b,c) for (a,(b,c)) in zip(list(range_clusters),recorded_usage_coverage_stats)]
+        results['time']=time.time()-b
         return  results
                 
     

@@ -2,17 +2,17 @@
     "scanette_100043-steps": {
         "datapath": "../data/",
         "range":[2,20,1],
-        "experiments":10
+        "experiments":50
     },
     "spree_5000_session_wo_responses_agilkia": {
         "datapath": "../data/",
         "range":[2,20,1],
-        "experiments":10
+        "experiments":50
     },
     "teaming_execution": {
         "datapath": "../data/",
         "range":[2,120,5],
-        "experiments":10
+        "experiments":50
     }
     
 }
